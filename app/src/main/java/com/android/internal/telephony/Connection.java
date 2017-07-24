@@ -1,5 +1,6 @@
 package com.android.internal.telephony;
 
+import android.os.Bundle;
 import android.telecom.DisconnectCause;
 import android.util.Log;
 
@@ -8,7 +9,17 @@ import android.util.Log;
  */
 
 public class Connection {
+    private int cnapNamePresentation;
+
     public void hangup() {
+    }
+
+    public int getCnapNamePresentation() {
+        return cnapNamePresentation;
+    }
+
+    public Call.State getState() {
+        return state;
     }
 }
 
@@ -2932,18 +2943,7 @@ public abstract class Connection extends Conferenceable {
         }
     }
 
-    private final void clearConferenceableList() {
-        for (Conferenceable c : mConferenceables) {
-            if (c instanceof Connection) {
-                Connection connection = (Connection) c;
-                connection.removeConnectionListener(mConnectionDeathListener);
-            } else if (c instanceof Conference) {
-                Conference conference = (Conference) c;
-                conference.removeListener(mConferenceDeathListener);
-            }
-        }
-        mConferenceables.clear();
-    }
+
 
     /**
      * Handles a change to extras received from Telecom.

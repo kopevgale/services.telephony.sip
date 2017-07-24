@@ -20,18 +20,20 @@ package com.android.servicestelephonysip;
  * limitations under the License.
  */
 
-        import android.os.Handler;
-        import android.os.Message;
-        import android.telecom.CallAudioState;
-        import android.telecom.CallCapabilities;
-        import android.telecom.Connection;
-        import android.util.Log;
-        import com.android.internal.telephony.Call;
-        import com.android.internal.telephony.CallStateException;
-        import com.android.internal.telephony.sip.SipPhone;
-        import java.util.List;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.telecom.CallAudioState;
+import android.telecom.CallCapabilities;
+import android.telecom.Connection;
+import android.util.Log;
 
-        import Call.State.IDLE;
+import com.android.internal.telephony.sip.SipPhone;
+
+import java.util.List;
+
+import Call.State.IDLE;
 
 final class SipConnection extends Connection {
     private static final String PREFIX = "[SipConnection] ";
@@ -115,7 +117,7 @@ final class SipConnection extends Connection {
     public void onHold() {
         if (VERBOSE) log("onHold");
         try {
-            if (getPhone() != null && getState() == State.ACTIVE) {
+            if (getPhone() != null && getState() == PlaybackStateCompat.State.ACTIVE) {
                 getPhone().switchHoldingAndActive();
             }
         } catch (CallStateException e) {
@@ -126,7 +128,7 @@ final class SipConnection extends Connection {
     public void onUnhold() {
         if (VERBOSE) log("onUnhold");
         try {
-            if (getPhone() != null && getState() == State.HOLDING) {
+            if (getPhone() != null && getState() == PlaybackStateCompat.State.HOLDING) {
                 getPhone().switchHoldingAndActive();
             }
         } catch (CallStateException e) {
@@ -173,6 +175,7 @@ final class SipConnection extends Connection {
     public void onPhoneAccountClicked() {
         if (VERBOSE) log("onPhoneAccountClicked");
     }
+    @Nullable
     private Call getCall() {
         if (mOriginalConnection != null) {
             return mOriginalConnection.getCall();
